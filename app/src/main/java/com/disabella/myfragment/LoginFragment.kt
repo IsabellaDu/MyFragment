@@ -11,11 +11,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.google.android.material.textfield.TextInputLayout
 
 class LoginFragment : Fragment() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -30,7 +32,8 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val login = view.findViewById<TextInputLayout>(R.id.loginLayout)
         val password = view.findViewById<TextInputLayout>(R.id.passwordLayout)
-        //val sharedPref = getSharedPreferences("main", Context.MODE_PRIVATE)
+        val sharedPref = activity?.getSharedPreferences("main", Context.MODE_PRIVATE)
+
 
         @SuppressLint("CommitPrefEdits")
         fun validate(): Int {
@@ -38,14 +41,15 @@ class LoginFragment : Fragment() {
             login.error = if (login.editText?.text.toString() != "admin") {
                 "this Login is invalid"
             } else {
-                //sharedPref.edit().putString("login", login.editText?.text.toString()).apply()
+                sharedPref?.edit()?.putString("login", login.editText?.text.toString())?.apply()
                 result += 1
                 null
             }
             password.error = if (password.editText?.text.toString() != "pass") {
                 "this Password is invalid"
             } else {
-                // sharedPref.edit().putString("password", password.editText?.text.toString()).apply()
+                sharedPref?.edit()?.putString("password", password.editText?.text.toString())
+                    ?.apply()
                 result += 1
                 null
             }

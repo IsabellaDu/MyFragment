@@ -16,12 +16,6 @@ class MainActivity : AppCompatActivity() {
 
     fun addFragment() {
         val splashFragment = SplashFragment()
-        splashFragment.arguments = bundleOf(
-            "some_int" to 123,
-            "some_string" to "asdf",
-            "some_more_string" to "qwerty",
-            "some_boolean" to true
-        )
 
         supportFragmentManager.commit {
             setReorderingAllowed(true)

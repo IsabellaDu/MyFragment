@@ -1,6 +1,8 @@
 package com.disabella.myfragment
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -17,11 +19,6 @@ import java.time.temporal.TemporalAdjusters.next
 class SplashFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        arguments?.let {
-            val paramSample = it.getInt("some_int")
-            Log.i("MY_TAG", "params: $paramSample")
-        }
     }
 
     override fun onCreateView(
@@ -33,11 +30,24 @@ class SplashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            parentFragmentManager.commit {
-                replace(R.id.container, LoginFragment()).addToBackStack(null)
-            }
-        }, 2000)
-    }
+        val sharedPref = activity?.getSharedPreferences("main", Context.MODE_PRIVATE)
 
+        if (sharedPref != null) {
+            if (!sharedPref.contains("login") && !sharedPref.contains("password")) {
+
+                Handler(Looper.getMainLooper()).postDelayed({
+                    parentFragmentManager.commit {
+                        replace(R.id.container, LoginFragment()).addToBackStack(null)
+                    }
+                }, 2000)
+            } else {
+                Handler(Looper.getMainLooper()).postDelayed({
+                    parentFragmentManager.commit {
+                        replace(R.id.container, ResultFragment()).addToBackStack(null)
+                    }
+                }, 2000)
+
+            }
+        }
+    }
 }
